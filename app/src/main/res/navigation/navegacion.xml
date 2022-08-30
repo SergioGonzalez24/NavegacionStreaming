@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegacion"
+    app:startDestination="@id/principalFrag">
+
+    <fragment
+        android:id="@+id/principalFrag"
+        android:name="mx.itesm.ag.navegacionstreaming.PrincipalFrag"
+        android:label="fragment_principal"
+        tools:layout="@layout/fragment_principal" >
+        <action
+            android:id="@+id/action_principalFrag_to_costoFrag"
+            app:destination="@id/costoFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/costoFrag"
+        android:name="mx.itesm.ag.navegacionstreaming.CostoFrag"
+        android:label="fragment_costo"
+        tools:layout="@layout/fragment_costo" >
+        <argument
+            android:name="tipoServicio"
+            app:argType="string" />
+    </fragment>
+</navigation>
