@@ -1,5 +1,11 @@
 package mx.itesm.ag.navegacionstreaming
 
+
+/**
+ * @author Gilberto André García Gaytán
+ * Este script es para calcular los costos
+ */
+
 class ServicioStreaming {
         fun calcularCosto(tipo: String): Double {
             return when(tipo) {

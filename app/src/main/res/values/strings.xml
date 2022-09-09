@@ -2,9 +2,9 @@
     <string name="app_name">NavegacionStreaming</string>
     
     <string-array name="arrTipoServicio">
-        <item>Netflix</item>
-        <item>Disney+</item>
-        <item>HBO Max</item>
+        <item>**Netflix</item>
+        <item>**Disney+</item>
+        <item>**HBO Max</item>
     </string-array>
     
 </resources>
