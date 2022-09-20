@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="mx.itesm.ag.navegacionstreaming">
 
-
+    <!--Poder usar coneiones de internet-->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

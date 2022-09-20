@@ -13,7 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import mx.itesm.ag.navegacionstreaming.databinding.FragmentCostoBinding
 
+    /**
+     * @author Sergio Gonzalez
+     * Este script descarga los datos y servicios a mostrar en la app
+     */
+
 class CostoFrag : Fragment() {
+
 
     private val viewModel: CostoViewModel by viewModels()
     //argumentos
@@ -21,7 +27,7 @@ class CostoFrag : Fragment() {
     //binding
     private lateinit var binding: FragmentCostoBinding
     //Costo
-    private var costo = 0.0
+    private var costo : Double = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +42,7 @@ class CostoFrag : Fragment() {
         println("${args.tipoServicio}")
         registrarEventos()
         configurarObservadores()
-        viewModel.calcularCosto(args.tipoServicio)
+        viewModel.descargarCosto(args.tipoServicio)
     }
 
     private fun registrarEventos() {
@@ -56,7 +62,7 @@ class CostoFrag : Fragment() {
     private fun configurarObservadores() {
         viewModel.costo.observe(viewLifecycleOwner){ costo ->
             //manda donde esta viniendo el viewlifecycleowner
-            this.costo = costo
+            this.costo = costo.toDouble()
             binding.tvCosto.setText("El costo del tipo de ${args.tipoServicio} es $" + "%.2f".format(costo))
         }
 
@@ -66,4 +72,7 @@ class CostoFrag : Fragment() {
         super.onResume()
     }
 
-}
+
+
+
+    }

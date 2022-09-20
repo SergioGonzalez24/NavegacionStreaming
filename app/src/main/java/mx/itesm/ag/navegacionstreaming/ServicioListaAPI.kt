@@ -5,15 +5,17 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 /**
- * @author Gilberto André García Gaytán
+ * @author Sergio Gonzalez
  * Define los servicios que vamos a consumir
  */
 
-interface ServicioListaAPI
-{
-    @GET("servicios.php")  //endpoint
+interface ServicioListaAPI {
+
+    @GET("servicios.php")
     fun descargarListaServicios(): Call<List<Servicio>>
 
     @GET("{servicio}.php")
     fun descargarCosto(@Path("servicio") servicio: String): Call<CostoServicio>
+
+
 }

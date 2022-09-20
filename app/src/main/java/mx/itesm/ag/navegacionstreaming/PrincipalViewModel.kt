@@ -7,55 +7,51 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import mx.itesm.ag.navegacionstreaming.CostoViewModel
-import android.widget.Toast
+
 
 class PrincipalViewModel : ViewModel() {
+    // TODO: Implement the ViewModel
 
-    /**
-     * @author Gilberto André García Gaytán
-     * Este script descarga los datos y servicios a mostrar en la app
-     */
-
-    // La red para descargar los datos
-    private  val retrofit by lazy {
+    // El objeto retrofit, crea el objeto que se conectará a la red
+    private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2/moviles/")
+            .baseUrl("http://10.0.2.2/moviles/") // Se utiliza 10.0.2.2 para probar localmente
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
+    // Instancia que crea el objeto que realiza la descarga
     private val servicioListaAPI by lazy {
         retrofit.create(ServicioListaAPI::class.java)
     }
 
+    // Observable
+    val arrServicios = MutableLiveData<List<Servicio>>()
 
-    //Observables
-    val listaServicio = MutableLiveData<List<Servicio>>()
+    //val costo = MutableLiveData<Double>()
 
-    //GUI
+
     fun descargarListaServicios() {
+        // Crea un objeto que realizará la descarga
         val call = servicioListaAPI.descargarListaServicios()
-        call.enqueue(object: Callback<List<Servicio>>{
-            override fun onResponse(  //Éxito
-                call: Call<List<Servicio>>,
-                response: Response<List<Servicio>>
-            ) {
-                if (response.isSuccessful) {
-                    val lista = response.body()
-                    listaServicio.value = lista!!
-                    println("Lista Descargada: $lista")
 
-                }else {
-                    println("Error: ${response.errorBody()}")
+        // Inicia la descarga ASÍNCRONA
+        call.enqueue(object: Callback<List<Servicio>> {
+            override fun onResponse(
+                call: Call<List<Servicio>>,
+                response: Response<List<Servicio>>) {
+                // llamada exitosa
+                if(response.isSuccessful) {
+                    arrServicios.value = response.body()
+                    println("Arreglo descargado: ${arrServicios.value}")
                 }
             }
-
-            override fun onFailure(call: Call<List<Servicio>>, t: Throwable) { // cuando hay error
-                println("ERROR: ${t.localizedMessage}")
+            override fun onFailure(call: Call<List<Servicio>>, t: Throwable) {
+                // llamada fallida
+                println("Error en la descarga: ${t.localizedMessage}")
             }
-
         })
-
     }
 }
+
+

@@ -7,67 +7,62 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import mx.itesm.ag.navegacionstreaming.databinding.FragmentPrincipalBinding
 
-class PrincipalFrag : Fragment()
-{
-
-    /**
-     * @author Gilberto André García Gaytán
-     * Este script tiene la función principal de dar el dato dependiendo
-     * que servicio escoja el usuario al dar click al boton de contratar
-     */
+class PrincipalFrag : Fragment() {
 
     private val viewModel: PrincipalViewModel by viewModels()
-    private lateinit var  binding: FragmentPrincipalBinding
+    private lateinit var binding: FragmentPrincipalBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentPrincipalBinding.inflate(layoutInflater)
-        return  binding.root
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        registrarEventos()
-    }
-
-    // Mostrar componentes
     override fun onStart() {
         super.onStart()
-        configurarObservables()
+        registrarObservables()
         viewModel.descargarListaServicios()
     }
 
-    private fun configurarObservables() {
-        viewModel.listaServicio.observe(viewLifecycleOwner){lista ->
-            val arrServicios = lista.toTypedArray()
-            binding.spServicios.adapter = ArrayAdapter(requireContext(),
+    private fun registrarObservables() {
+        viewModel.arrServicios.observe(viewLifecycleOwner) { listaServicios ->
+            val arrServicios = listaServicios.toTypedArray()
+
+            val adaptador = ArrayAdapter(
+                requireContext(),
                 android.R.layout.simple_spinner_item,
-                arrServicios)
+                arrServicios
+            )
+            binding.spServicios.adapter = adaptador
         }
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registrarEventos() //boton contratar
+    }
 
     private fun registrarEventos() {
         binding.btnContratar.setOnClickListener {
-            val tipo = binding.spServicios.selectedItem.toString()
+            val tipo = binding.spServicios.selectedItem.toString() //Servicio a contratar
             val accion = PrincipalFragDirections.actionPrincipalFragToCostoFrag(tipo)
             findNavController().navigate(accion)
-        }
-        setFragmentResultListener("calcularCosto"){ requestKey, bundle ->
+         }
+        setFragmentResultListener("calcularCosto") {
+            requestKey, bundle ->
             val costo = bundle.getDouble("costo")
-            binding.tvCosto.setText("Precio a pagar: $$costo")
-
-
+            binding.tvCosto.setText("El costo es de: $$costo")
         }
     }
+
 
 }

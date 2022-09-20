@@ -2,16 +2,20 @@ package mx.itesm.ag.navegacionstreaming
 
 import com.google.gson.annotations.SerializedName
 
-/**
- * @author Gilberto André García Gaytán
- * Se crea la data class para el @CostoServicio y se convierte a string
- */
+data class CostoServicio (
+    var costo: Double
+    )
 
-data class CostoServicio(
-        @SerializedName("costo")
-        var costo: String
-){
-        override fun toString(): String {
-                return costo
-        }
+
+
+
+/*
+data class Servicio(
+    @SerializedName("servicio")
+    var nombre: String
+    ) {
+    override fun toString(): String {
+        return nombre
+    }
 }
+ */
